@@ -24,5 +24,7 @@ def fetch_stock(input_ids):
       response_body.append(f"error: {company_id} is not existed code.")
       error_flag = true
 
-  response_body.append(f"Please enter in the following format. \n ex. 0000, 1234")
+  if error_flag:
+    response_body.append(f"Please enter in the following format. \n ex. 0000, 1234")
+
   return '\n'.join(response_body)
