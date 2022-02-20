@@ -15,7 +15,9 @@ python3 main.py
 ## LINE Botが動くように
 
 https://manager.line.biz
+
 Message APIのためのアカウントを作成
+
 webhookの設定をして、シークレットキー、アクセストークンを取得する
 
 ```
