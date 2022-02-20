@@ -4,7 +4,8 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 import os
-# import yfinance as yf
+from fetch_stock import fetch_stock
+
 
 app = Flask(__name__)
 
@@ -16,49 +17,28 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 @app.route("/callback", methods=['POST'])
 def callback():
-    # get X-Line-Signature header value
-    signature = request.headers['X-Line-Signature']
+  # get X-Line-Signature header value
+  signature = request.headers['X-Line-Signature']
 
-    # get request body as text
-    body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
+  # get request body as text
+  body = request.get_data(as_text=True)
+  app.logger.info("Request body: " + body)
 
-    # handle webhook body
-    try:
-        handler.handle(body, signature)
-    except InvalidSignatureError:
-        abort(400)
+  # handle webhook body
+  try:
+      handler.handle(body, signature)
+  except InvalidSignatureError:
+      abort(400)
 
-    return 'OK'
+  return 'OK'
 
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text))
-
-# def fetch_company_info(company_id):
-#   ticker = yf.Ticker(f"{company_id}.T")
-#   ticker_info = ticker.info
-
-#   print(f"企業名: {ticker_info['longName']}")
-#   current_price = "{:,}".format(ticker_info['currentPrice'])
-#   print(f"現在値: { current_price }円")
-#   return
-
-# def main():
-#   print("start")
-
-#   # 9984: Softbank group, T: 東証
-#   # 7974: Nintendo
-#   company_ids = [9984, 7974]
-
-#   # fetch each company info
-#   for company_id in company_ids:
-#     fetch_company_info(company_id)
-
-#   print("end")
+  line_bot_api.reply_message(
+    event.reply_token,
+    TextSendMessage(text=fetch_stock())
+  )
 
 if __name__ == '__main__':
   # main()
