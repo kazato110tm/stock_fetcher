@@ -14,6 +14,7 @@ def fetch_company_info(response_body, company_id):
 def fetch_stock(input_ids):
   company_ids = re.sub(r"\s+", "", input_ids).split(',')
   response_body = []
+  error_flag = false
 
   # fetch each company info
   for company_id in company_ids:
@@ -21,5 +22,7 @@ def fetch_stock(input_ids):
       fetch_company_info(response_body, int(company_id))
     else:
       response_body.append(f"error: {company_id} is not existed code.")
+      error_flag = true
 
+  response_body.append(f"Please enter in the following format. \n ex. 0000, 1234")
   return '\n'.join(response_body)
