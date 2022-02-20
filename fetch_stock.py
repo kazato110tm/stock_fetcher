@@ -21,7 +21,7 @@ def fetch_stock(input_ids):
     if company_id.isdecimal():
       fetch_company_info(response_body, int(company_id))
     else:
-      response_body.append(f"error: {company_id} is not existed code.")
+      response_body.append(f"error: {company_id} is not an existing code.")
       error_flag = True
 
   if error_flag:
